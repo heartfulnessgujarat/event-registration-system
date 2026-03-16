@@ -1,6 +1,29 @@
 console.log("App loaded");
 
-let timer;
+let participants=[];
+
+async function loadParticipants(){
+
+let response =
+await fetch(
+CONFIG.API_URL+"?action=list"
+);
+
+let data =
+await response.json();
+
+participants=data.data;
+
+console.log(
+"Participants loaded:",
+participants.length
+);
+
+}
+
+loadParticipants();
+
+
 
 document
 .getElementById("searchBox")
@@ -8,11 +31,10 @@ document
 "keyup",
 function(){
 
-let query=this.value;
+let query=
+this.value.toLowerCase();
 
-clearTimeout(timer);
-
-if(query.length<3){
+if(query.length<2){
 
 document
 .getElementById("suggestions")
@@ -22,51 +44,24 @@ return;
 
 }
 
-timer=setTimeout(function(){
+let results=
+participants.filter(name=>
 
-searchParticipant(query);
+name.toLowerCase()
+.includes(query)
 
-},400);
+).slice(0,20);
+
+showSuggestions(results);
 
 }
 );
-
-
-
-async function searchParticipant(query){
-
-try{
-
-let response =
-await fetch(
-CONFIG.API_URL +
-"?query="+
-encodeURIComponent(query)
-);
-
-let data =
-await response.json();
-
-if(data.status=="success"){
-
-showSuggestions(data.data);
-
-}
-
-}
-catch(error){
-
-console.log(error);
-
-}
-
-}
 
 
 
 function showSuggestions(list){
 
-let box =
+let box=
 document.getElementById("suggestions");
 
 box.innerHTML="";
@@ -74,7 +69,7 @@ box.innerHTML="";
 if(list.length==0){
 
 box.innerHTML=
-"<div class='suggestionItem'>No participant found</div>";
+"<div class='suggestionItem'>No match</div>";
 
 return;
 
@@ -82,7 +77,7 @@ return;
 
 list.forEach(function(name){
 
-let div =
+let div=
 document.createElement("div");
 
 div.className="suggestionItem";
