@@ -11,13 +11,13 @@ const suggestionBox =
 document.getElementById("suggestions");
 
 
+
 // Disable search initially
 searchBox.disabled=true;
 searchBox.placeholder="Loading participants...";
 
 
 
-// Load participants
 async function loadParticipants(){
 
 try{
@@ -38,9 +38,18 @@ console.log(
 participants.length
 );
 
-// Enable search now
+// Enable search
 searchBox.disabled=false;
 searchBox.placeholder="Type participant name";
+
+
+// IMPORTANT FIX:
+// If user already typed something, refresh search
+if(searchBox.value.length>0){
+
+triggerSearch(searchBox.value);
+
+}
 
 }
 catch(error){
@@ -57,10 +66,19 @@ loadParticipants();
 
 
 
-// Search logic
+// Search handler
 searchBox.addEventListener(
 "keyup",
 function(){
+
+triggerSearch(this.value);
+
+}
+);
+
+
+
+function triggerSearch(query){
 
 if(!dataLoaded){
 
@@ -68,8 +86,7 @@ return;
 
 }
 
-let query =
-this.value.toLowerCase();
+query=query.toLowerCase();
 
 if(query.length==0){
 
@@ -77,8 +94,6 @@ suggestionBox.innerHTML="";
 return;
 
 }
-
-
 
 let results =
 participants.filter(function(name){
@@ -92,11 +107,10 @@ return name
 showSuggestions(results);
 
 }
-);
 
 
 
-// Show suggestions
+// Show dropdown
 function showSuggestions(list){
 
 suggestionBox.innerHTML="";
