@@ -1,12 +1,16 @@
 console.log("App loaded");
 
+let timer;
+
 document
 .getElementById("searchBox")
 .addEventListener(
 "keyup",
-async function(){
+function(){
 
 let query=this.value;
+
+clearTimeout(timer);
 
 if(query.length<3){
 
@@ -17,6 +21,19 @@ document
 return;
 
 }
+
+timer=setTimeout(function(){
+
+searchParticipant(query);
+
+},400);
+
+}
+);
+
+
+
+async function searchParticipant(query){
 
 try{
 
@@ -44,7 +61,6 @@ console.log(error);
 }
 
 }
-);
 
 
 
