@@ -1,12 +1,11 @@
 console.log("App loaded");
 
 let participants=[];
+let participantRows=[];
 
 
 
 async function loadParticipants(){
-
-try{
 
 let response =
 await fetch(
@@ -16,23 +15,13 @@ CONFIG.API_URL+"?action=list"
 let data =
 await response.json();
 
-if(data && data.data){
-
-participants=data.data;
+participants=data.names;
+participantRows=data.rows;
 
 console.log(
 "Participants loaded:",
 participants.length
 );
-
-}
-
-}
-catch(error){
-
-console.log("Load error:",error);
-
-}
 
 }
 
@@ -81,15 +70,6 @@ document.getElementById("suggestions");
 
 box.innerHTML="";
 
-if(list.length==0){
-
-box.innerHTML=
-"<div class='suggestionItem'>No match</div>";
-
-return;
-
-}
-
 list.forEach(function(name){
 
 let div=
@@ -113,7 +93,7 @@ box.appendChild(div);
 
 
 
-async function selectParticipant(name){
+function selectParticipant(name){
 
 document
 .getElementById("searchBox")
@@ -123,32 +103,10 @@ document
 .getElementById("suggestions")
 .innerHTML="";
 
-try{
+let row =
+participantRows.find(r => r[1]==name);
 
-let response =
-await fetch(
-
-CONFIG.API_URL+
-"?action=profile&name="+
-encodeURIComponent(name)
-
-);
-
-let data =
-await response.json();
-
-if(data.status=="found"){
-
-showProfile(data.data);
-
-}
-
-}
-catch(error){
-
-console.log(error);
-
-}
+showProfile(row);
 
 }
 
