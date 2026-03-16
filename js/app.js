@@ -2,12 +2,16 @@ console.log("App loaded");
 
 let participants=[];
 
+
+
 async function loadParticipants(){
 
 try{
 
 let response =
-await fetch(CONFIG.API_URL);
+await fetch(
+CONFIG.API_URL+"?action=list"
+);
 
 let data =
 await response.json();
@@ -20,13 +24,6 @@ console.log(
 "Participants loaded:",
 participants.length
 );
-
-}
-else{
-
-participants=[];
-
-console.log("No data received");
 
 }
 
@@ -116,7 +113,7 @@ box.appendChild(div);
 
 
 
-function selectParticipant(name){
+async function selectParticipant(name){
 
 document
 .getElementById("searchBox")
@@ -126,6 +123,63 @@ document
 .getElementById("suggestions")
 .innerHTML="";
 
-console.log("Selected:",name);
+try{
+
+let response =
+await fetch(
+
+CONFIG.API_URL+
+"?action=profile&name="+
+encodeURIComponent(name)
+
+);
+
+let data =
+await response.json();
+
+if(data.status=="found"){
+
+showProfile(data.data);
+
+}
+
+}
+catch(error){
+
+console.log(error);
+
+}
+
+}
+
+
+
+function showProfile(row){
+
+let html=`
+
+<h3>Participant Profile</h3>
+
+<p><b>Name:</b> ${row[1]}</p>
+
+<p><b>Mobile:</b> ${row[2]}</p>
+
+<p><b>Email:</b> ${row[3]}</p>
+
+<p><b>Centre:</b> ${row[4]}</p>
+
+<p><b>District:</b> ${row[5]}</p>
+
+<p><b>Zone:</b> ${row[6]}</p>
+
+<p><b>SRCMID:</b> ${row[7]}</p>
+
+<p><b>Pin:</b> ${row[8]}</p>
+
+`;
+
+document
+.getElementById("result")
+.innerHTML=html;
 
 }
