@@ -4,20 +4,20 @@ let participants=[];
 let participantRows=[];
 let dataLoaded=false;
 
+const searchBox =
+document.getElementById("searchBox");
+
+const suggestionBox =
+document.getElementById("suggestions");
 
 
 // Disable search initially
-document
-.getElementById("searchBox")
-.disabled=true;
-
-document
-.getElementById("searchBox")
-.placeholder="Loading participants...";
+searchBox.disabled=true;
+searchBox.placeholder="Loading participants...";
 
 
 
-// Load participant data once
+// Load participants
 async function loadParticipants(){
 
 try{
@@ -38,19 +38,16 @@ console.log(
 participants.length
 );
 
-// Enable search
-document
-.getElementById("searchBox")
-.disabled=false;
-
-document
-.getElementById("searchBox")
-.placeholder="Type participant name";
+// Enable search now
+searchBox.disabled=false;
+searchBox.placeholder="Type participant name";
 
 }
 catch(error){
 
 console.log("Load error:",error);
+
+searchBox.placeholder="Failed to load data";
 
 }
 
@@ -60,19 +57,12 @@ loadParticipants();
 
 
 
-// Search behaviour
-document
-.getElementById("searchBox")
-.addEventListener(
+// Search logic
+searchBox.addEventListener(
 "keyup",
 function(){
 
 if(!dataLoaded){
-
-document
-.getElementById("suggestions")
-.innerHTML=
-"<div class='suggestionItem'>Loading...</div>";
 
 return;
 
@@ -81,12 +71,9 @@ return;
 let query =
 this.value.toLowerCase();
 
-if(query.length<1){
+if(query.length==0){
 
-document
-.getElementById("suggestions")
-.innerHTML="";
-
+suggestionBox.innerHTML="";
 return;
 
 }
@@ -96,13 +83,11 @@ return;
 let results =
 participants.filter(function(name){
 
-return String(name)
+return name
 .toLowerCase()
 .includes(query);
 
 }).slice(0,20);
-
-
 
 showSuggestions(results);
 
@@ -111,17 +96,14 @@ showSuggestions(results);
 
 
 
-// Show dropdown
+// Show suggestions
 function showSuggestions(list){
 
-let box =
-document.getElementById("suggestions");
-
-box.innerHTML="";
+suggestionBox.innerHTML="";
 
 if(list.length==0){
 
-box.innerHTML=
+suggestionBox.innerHTML=
 "<div class='suggestionItem'>No match</div>";
 
 return;
@@ -145,7 +127,7 @@ selectParticipant(name);
 
 };
 
-box.appendChild(div);
+suggestionBox.appendChild(div);
 
 });
 
@@ -153,16 +135,12 @@ box.appendChild(div);
 
 
 
-// When participant selected
+// Select participant
 function selectParticipant(name){
 
-document
-.getElementById("searchBox")
-.value=name;
+searchBox.value=name;
 
-document
-.getElementById("suggestions")
-.innerHTML="";
+suggestionBox.innerHTML="";
 
 let row =
 participantRows.find(function(r){
@@ -181,7 +159,7 @@ showProfile(row);
 
 
 
-// Show participant profile
+// Show profile
 function showProfile(row){
 
 let html=`
