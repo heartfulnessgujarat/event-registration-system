@@ -4,7 +4,13 @@ let participants=[];
 let participantRows=[];
 let dataLoaded=false;
 
+document
+.getElementById("searchBox")
+.disabled=true;
 
+document
+.getElementById("searchBox")
+.placeholder="Loading participants...";
 
 async function loadParticipants(){
 
