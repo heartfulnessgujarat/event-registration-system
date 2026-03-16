@@ -15,7 +15,7 @@ return;
 let response =
 await fetch(
 CONFIG.API_URL +
-"?action=test"
+"?action=search&query="+query
 );
 
 let data =
