@@ -5,3 +5,32 @@ font-family: Arial;
 margin:40px;
 
 }
+.suggestions{
+
+width:300px;
+
+background:white;
+
+border:1px solid #ccc;
+
+margin-top:5px;
+
+}
+
+
+.suggestionItem{
+
+padding:8px;
+
+cursor:pointer;
+
+border-bottom:1px solid #eee;
+
+}
+
+
+.suggestionItem:hover{
+
+background:#f1f5f9;
+
+}
