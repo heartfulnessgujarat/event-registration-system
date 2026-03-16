@@ -13,8 +13,14 @@ return;
 
 let response =
 await fetch(
-CONFIG.API_URL +
-"?action=search&query="+query
+CONFIG.API_URL,
+{
+method:"POST",
+body:JSON.stringify({
+action:"search",
+query:query
+})
+}
 );
 
 let data =
