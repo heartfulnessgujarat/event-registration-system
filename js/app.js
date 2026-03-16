@@ -4,13 +4,15 @@ let participants=[];
 
 async function loadParticipants(){
 
+try{
+
 let response =
-await fetch(
-CONFIG.API_URL+"?action=list"
-);
+await fetch(CONFIG.API_URL);
 
 let data =
 await response.json();
+
+if(data && data.data){
 
 participants=data.data;
 
@@ -18,6 +20,22 @@ console.log(
 "Participants loaded:",
 participants.length
 );
+
+}
+else{
+
+participants=[];
+
+console.log("No data received");
+
+}
+
+}
+catch(error){
+
+console.log("Load error:",error);
+
+}
 
 }
 
