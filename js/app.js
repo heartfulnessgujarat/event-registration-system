@@ -3,11 +3,8 @@ console.log(CONFIG);
 
 document
 .getElementById("searchBox")
-
 .addEventListener(
-
 "keyup",
-
 async function(){
 
 let query=this.value;
@@ -15,18 +12,14 @@ let query=this.value;
 if(query.length<3)
 return;
 
-let response=
+let response =
 await fetch(
-CONFIG.API_URL+
-"?action=test",
-{
-method:"GET",
-mode:"no-cors"
-}
+CONFIG.API_URL +
+"?action=test"
 );
 
-let data=
-await response.text();
+let data =
+await response.json();
 
 console.log(data);
 
