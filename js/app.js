@@ -4,30 +4,42 @@ document
 .getElementById("searchBox")
 .addEventListener(
 "keyup",
-function(){
+async function(){
 
 let query=this.value;
 
 if(query.length<3)
 return;
 
-let script =
-document.createElement("script");
+let response =
+await fetch(
+CONFIG.API_URL,
+{
+method:"POST",
 
-script.src=
-CONFIG.API_URL+
-"?action=search&query="+
-query+
-"&callback=showSuggestions";
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
 
-document.body.appendChild(script);
+body:
+"action=search&query="+query
 
 }
 );
 
-function showSuggestions(result){
+let text =
+await response.text();
 
-let list=result.data;
+let data =
+JSON.parse(text);
+
+showSuggestions(data.data);
+
+}
+);
+
+function showSuggestions(list){
 
 let html="";
 
