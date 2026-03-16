@@ -2,6 +2,7 @@ console.log("App loaded");
 
 let participants=[];
 let participantRows=[];
+let dataLoaded=false;
 
 
 
@@ -10,15 +11,15 @@ async function loadParticipants(){
 try{
 
 let response =
-await fetch(
-CONFIG.API_URL+"?action=list"
-);
+await fetch(CONFIG.API_URL+"?action=list");
 
 let data =
 await response.json();
 
 participants = data.names || [];
 participantRows = data.rows || [];
+
+dataLoaded=true;
 
 console.log(
 "Participants loaded:",
@@ -44,7 +45,18 @@ document
 "keyup",
 function(){
 
-let query=
+if(!dataLoaded){
+
+document
+.getElementById("suggestions")
+.innerHTML=
+"<div class='suggestionItem'>Loading...</div>";
+
+return;
+
+}
+
+let query =
 this.value.toLowerCase();
 
 if(query.length<1){
@@ -62,7 +74,7 @@ return;
 let results =
 participants.filter(function(name){
 
-return name
+return String(name)
 .toLowerCase()
 .includes(query);
 
@@ -131,7 +143,7 @@ document
 let row =
 participantRows.find(function(r){
 
-return r[1] == name;
+return String(r[1]).trim()==name;
 
 });
 
