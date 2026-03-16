@@ -1,5 +1,4 @@
 console.log("App file loaded");
-console.log(CONFIG);
 
 document
 .getElementById("searchBox")
@@ -21,7 +20,27 @@ CONFIG.API_URL +
 let data =
 await response.json();
 
-console.log(data);
+showSuggestions(data.data);
 
 }
 );
+
+function showSuggestions(list){
+
+let html="";
+
+for(let i=0;i<list.length;i++){
+
+html+=`
+<div class="suggestionItem">
+${list[i]}
+</div>
+`;
+
+}
+
+document
+.getElementById("suggestions")
+.innerHTML=html;
+
+}
