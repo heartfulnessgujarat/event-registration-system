@@ -4,6 +4,9 @@ let participants=[];
 let participantRows=[];
 let dataLoaded=false;
 
+
+
+// Disable search initially
 document
 .getElementById("searchBox")
 .disabled=true;
@@ -12,6 +15,9 @@ document
 .getElementById("searchBox")
 .placeholder="Loading participants...";
 
+
+
+// Load participant data once
 async function loadParticipants(){
 
 try{
@@ -32,6 +38,15 @@ console.log(
 participants.length
 );
 
+// Enable search
+document
+.getElementById("searchBox")
+.disabled=false;
+
+document
+.getElementById("searchBox")
+.placeholder="Type participant name";
+
 }
 catch(error){
 
@@ -45,6 +60,7 @@ loadParticipants();
 
 
 
+// Search behaviour
 document
 .getElementById("searchBox")
 .addEventListener(
@@ -95,6 +111,7 @@ showSuggestions(results);
 
 
 
+// Show dropdown
 function showSuggestions(list){
 
 let box =
@@ -136,6 +153,7 @@ box.appendChild(div);
 
 
 
+// When participant selected
 function selectParticipant(name){
 
 document
@@ -163,6 +181,7 @@ showProfile(row);
 
 
 
+// Show participant profile
 function showProfile(row){
 
 let html=`
