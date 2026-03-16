@@ -22,11 +22,9 @@ try{
 
 let response =
 await fetch(
-
 CONFIG.API_URL +
 "?query="+
 encodeURIComponent(query)
-
 );
 
 let data =
@@ -41,7 +39,7 @@ showSuggestions(data.data);
 }
 catch(error){
 
-console.log("Error:",error);
+console.log(error);
 
 }
 
@@ -52,37 +50,38 @@ console.log("Error:",error);
 
 function showSuggestions(list){
 
-let html="";
+let box =
+document.getElementById("suggestions");
+
+box.innerHTML="";
 
 if(list.length==0){
 
-html=
+box.innerHTML=
 "<div class='suggestionItem'>No participant found</div>";
 
-}
-
-else{
-
-for(let i=0;i<list.length;i++){
-
-html+=`
-
-<div class="suggestionItem"
-onclick="selectParticipant('${list[i]}')">
-
-${list[i]}
-
-</div>
-
-`;
+return;
 
 }
 
-}
+list.forEach(function(name){
 
-document
-.getElementById("suggestions")
-.innerHTML=html;
+let div =
+document.createElement("div");
+
+div.className="suggestionItem";
+
+div.textContent=name;
+
+div.onclick=function(){
+
+selectParticipant(name);
+
+};
+
+box.appendChild(div);
+
+});
 
 }
 
