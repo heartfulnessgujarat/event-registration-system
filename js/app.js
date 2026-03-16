@@ -1,3 +1,6 @@
+console.log("App file loaded");
+console.log(CONFIG);
+
 document
 .getElementById("searchBox")
 
