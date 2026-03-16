@@ -67,7 +67,8 @@ for(let i=0;i<list.length;i++){
 
 html+=`
 
-<div class="suggestionItem">
+<div class="suggestionItem"
+onclick="selectParticipant('${list[i]}')">
 
 ${list[i]}
 
@@ -82,5 +83,21 @@ ${list[i]}
 document
 .getElementById("suggestions")
 .innerHTML=html;
+
+}
+
+
+
+function selectParticipant(name){
+
+document
+.getElementById("searchBox")
+.value=name;
+
+document
+.getElementById("suggestions")
+.innerHTML="";
+
+console.log("Selected:",name);
 
 }
