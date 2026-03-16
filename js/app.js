@@ -1,37 +1,33 @@
-console.log("App file loaded");
+console.log("App loaded");
 
 document
 .getElementById("searchBox")
 .addEventListener(
 "keyup",
-async function(){
+function(){
 
 let query=this.value;
 
 if(query.length<3)
 return;
 
-let response =
-await fetch(
-CONFIG.API_URL,
-{
-method:"POST",
-body:JSON.stringify({
-action:"search",
-query:query
-})
-}
-);
+let script =
+document.createElement("script");
 
-let data =
-await response.json();
+script.src=
+CONFIG.API_URL+
+"?action=search&query="+
+query+
+"&callback=showSuggestions";
 
-showSuggestions(data.data);
+document.body.appendChild(script);
 
 }
 );
 
-function showSuggestions(list){
+function showSuggestions(result){
+
+let list=result.data;
 
 let html="";
 
