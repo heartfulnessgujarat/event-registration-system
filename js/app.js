@@ -5,27 +5,25 @@ document
 
 "keyup",
 
-function(){
+async function(){
 
-let html=`
+let query=this.value;
 
-<div class="suggestionItem">
+if(query.length<3)
+return;
 
-Sample User 1
+let response=
+await fetch(
 
-</div>
+CONFIG.API_URL+
+"?action=test"
 
-<div class="suggestionItem">
+);
 
-Sample User 2
+let data=
+await response.text();
 
-</div>
-
-`;
-
-document
-.getElementById("suggestions")
-.innerHTML=html;
+console.log(data);
 
 }
 );
