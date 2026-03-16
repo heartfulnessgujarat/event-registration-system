@@ -1,4 +1,5 @@
-console.log("Config loaded");
+console.log("CONFIG FILE LOADED");
+
 
 var CONFIG = {
 
