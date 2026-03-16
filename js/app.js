@@ -17,10 +17,12 @@ return;
 
 let response=
 await fetch(
-
 CONFIG.API_URL+
-"?action=test"
-
+"?action=test",
+{
+method:"GET",
+mode:"no-cors"
+}
 );
 
 let data=
