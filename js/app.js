@@ -29,7 +29,10 @@ let data =
 await response.json();
 
 participants =
-data.map(p => p.name);
+data.map(p => 
+String(p.name)
+.trim()
+);
 
 participantRows =
 data.map(p => p.row);
