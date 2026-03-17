@@ -61,7 +61,7 @@ loadCentres();
 
 
 
-// PARTICIPANT SEARCH
+// SEARCH PARTICIPANT
 searchBox.addEventListener(
 "keyup",
 function(){
@@ -111,7 +111,7 @@ showParticipantSuggestions(participantResults);
 
 
 
-// SHOW PARTICIPANT LIST
+// SHOW SUGGESTIONS
 function showParticipantSuggestions(list){
 
 suggestionBox.innerHTML="";
@@ -310,7 +310,7 @@ document
 disabled
 onclick="registerEditedParticipant()">
 
-I have edited details – Register Me
+Yes, I have edited details – Register Me
 
 </button>
 
@@ -414,10 +414,42 @@ document
 
 
 
-// REGISTER NORMAL
+// SHOW THANK YOU MESSAGE
+async function showThankYou(){
+
+let response =
+await fetch(
+CONFIG.API_URL+"?action=thankyou"
+);
+
+let data =
+await response.json();
+
+let message =
+data.message.replace(/\n/g,"<br>");
+
+document
+.getElementById("result")
+.innerHTML=`
+
+<div class="thankyouBox">
+
+<h3>Registration Confirmation</h3>
+
+<p>${message}</p>
+
+</div>
+
+`;
+
+}
+
+
+
+// REGISTER WITHOUT EDIT
 function registerParticipant(){
 
-alert("Proceed to event selection");
+showThankYou();
 
 }
 
@@ -469,9 +501,7 @@ await response.json();
 
 if(result.status==="updated"){
 
-alert("Profile updated");
-
-registerParticipant();
+showThankYou();
 
 }
 else{
