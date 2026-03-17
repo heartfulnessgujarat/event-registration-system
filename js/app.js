@@ -415,6 +415,7 @@ document
 
 
 // SHOW THANK YOU MESSAGE
+
 async function showThankYou(){
 
 let response =
@@ -425,24 +426,13 @@ CONFIG.API_URL+"?action=thankyou"
 let data =
 await response.json();
 
-let message =
-data.message.replace(/\n/g,"<br>");
-
 document
 .getElementById("result")
-.innerHTML=`
-
-<div class="thankyouBox">
-
-<h3>Registration Confirmation</h3>
-
-<p>${message}</p>
-
-</div>
-
-`;
+.innerHTML=
+data.html;
 
 }
+
 
 
 
