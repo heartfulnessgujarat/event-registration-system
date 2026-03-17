@@ -2,6 +2,7 @@ console.log("App loaded");
 
 let participants=[];
 let participantRows=[];
+let centres=[];
 let dataLoaded=false;
 
 const searchBox =
@@ -18,7 +19,7 @@ searchBox.placeholder="Loading participants...";
 
 
 
-// Load participants
+// Load participant list
 async function loadParticipants(){
 
 let response =
@@ -43,7 +44,6 @@ console.log(
 participants.length
 );
 
-// Refresh if user already typed
 if(searchBox.value.length>0){
 
 triggerSearch(searchBox.value);
@@ -52,11 +52,25 @@ triggerSearch(searchBox.value);
 
 }
 
+
+
+// Load centres
+async function loadCentres(){
+
+let response =
+await fetch("./data/centres.json");
+
+centres =
+await response.json();
+
+}
+
 loadParticipants();
+loadCentres();
 
 
 
-// Search logic
+// Search participant
 searchBox.addEventListener(
 "keyup",
 function(){
@@ -95,7 +109,7 @@ showSuggestions(results);
 
 
 
-// Show suggestions
+// Show participant suggestions
 function showSuggestions(list){
 
 suggestionBox.innerHTML="";
@@ -150,7 +164,7 @@ showProfile(row);
 
 
 
-// PROFILE VIEW
+// PROFILE DISPLAY
 function showProfile(row){
 
 window.currentRow=row;
@@ -191,10 +205,15 @@ disabled>
 <tr>
 <td>Centre</td>
 <td>
+
 <input id="centre"
 value="${row[4]}"
 disabled
-onchange="centreChanged()">
+onkeyup="searchCentre(this.value)">
+
+<div id="centreSuggestions"
+class="suggestions"></div>
+
 </td>
 </tr>
 
@@ -262,23 +281,16 @@ document
 
 
 
-// ENABLE EDIT MODE
+// Enable editing
 function enableEdit(){
-
-window.isEditing=true;
 
 document.getElementById("mobile").disabled=false;
 document.getElementById("email").disabled=false;
 document.getElementById("centre").disabled=false;
 document.getElementById("pin").disabled=false;
 
-
-
 document.getElementById("registerBtn").disabled=true;
-
 document.getElementById("editBtn").disabled=true;
-
-
 
 document
 .getElementById("editSection")
@@ -300,32 +312,86 @@ I have edited details – Register Me
 
 
 
-// Centre change simulation
-function centreChanged(){
+// Search centre
+function searchCentre(query){
+
+if(query.length<1){
 
 document
-.getElementById("editedRegisterBtn")
-.disabled=true;
+.getElementById("centreSuggestions")
+.innerHTML="";
 
+return;
 
+}
 
-setTimeout(function(){
+let results =
+centres.filter(c=>
 
-document.getElementById("district").value="Updated District";
+c.centre
+.toLowerCase()
+.includes(query.toLowerCase())
 
-document.getElementById("zone").value="Updated Zone";
+);
+
+let html="";
+
+results.forEach(c=>{
+
+html+=`
+
+<div class="suggestionItem"
+onclick="selectCentre('${c.centre}')">
+
+${c.centre}
+
+</div>
+
+`;
+
+});
 
 document
-.getElementById("editedRegisterBtn")
-.disabled=false;
-
-},800);
+.getElementById("centreSuggestions")
+.innerHTML=html;
 
 }
 
 
 
-// REGISTER NORMAL
+// Select centre
+function selectCentre(name){
+
+document
+.getElementById("centre")
+.value=name;
+
+document
+.getElementById("centreSuggestions")
+.innerHTML="";
+
+let centreData =
+centres.find(c=>c.centre==name);
+
+document
+.getElementById("district")
+.value=
+centreData.district;
+
+document
+.getElementById("zone")
+.value=
+centreData.zone;
+
+document
+.getElementById("editedRegisterBtn")
+.disabled=false;
+
+}
+
+
+
+// Register normal
 function registerParticipant(){
 
 alert("Proceed to event selection");
@@ -334,7 +400,7 @@ alert("Proceed to event selection");
 
 
 
-// REGISTER AFTER EDIT
+// Register edited
 function registerEditedParticipant(){
 
 let mobile =
