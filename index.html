@@ -6,20 +6,15 @@
 
 <meta charset="UTF-8">
 
-<title>
-Event Registration System
-</title>
-
-
+<title>Event Registration</title>
 
 <style>
 
 body{
 
 font-family:Arial;
-background:#f5f5f5;
+background:#f4f6f8;
 margin:0;
-padding:0;
 
 }
 
@@ -30,7 +25,7 @@ margin:40px auto;
 background:white;
 padding:25px;
 border-radius:8px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
 
 }
 
@@ -44,34 +39,35 @@ input{
 
 width:100%;
 padding:10px;
-margin:5px 0;
+margin-top:8px;
 border:1px solid #ccc;
-border-radius:4px;
+border-radius:5px;
 
 }
 
 button{
 
 padding:10px 15px;
-margin:10px 5px;
+margin-top:15px;
 border:none;
-background:#2c7be5;
+background:#1976d2;
 color:white;
-border-radius:4px;
+border-radius:5px;
 cursor:pointer;
 
 }
 
 button:disabled{
 
-background:#aaa;
+background:#999;
 
 }
 
 .suggestions{
 
 border:1px solid #ccc;
-max-height:150px;
+border-top:none;
+max-height:180px;
 overflow-y:auto;
 background:white;
 
@@ -80,6 +76,7 @@ background:white;
 .suggestionItem{
 
 padding:8px;
+
 cursor:pointer;
 
 }
@@ -93,6 +90,7 @@ background:#f0f0f0;
 .profileTable{
 
 width:100%;
+margin-top:10px;
 
 }
 
@@ -104,11 +102,7 @@ padding:6px;
 
 </style>
 
-
-
 </head>
-
-
 
 <body>
 
@@ -116,13 +110,13 @@ padding:6px;
 
 <div class="container">
 
+<h2>Event Registration</h2>
 
 
-<h2>
-Event Registration
-</h2>
 
-
+<label>
+Enter your name
+</label>
 
 <input
 
@@ -130,25 +124,24 @@ id="searchBox"
 
 type="text"
 
-placeholder="Type your name"
+placeholder="Start typing your name"
 
-autocomplete="off"
+autocomplete="new-password"
+
+autocorrect="off"
+
+autocapitalize="off"
+
+spellcheck="false"
 
 >
 
 
 
 <div
-
 id="suggestions"
-
 class="suggestions">
-
 </div>
-
-
-
-<br>
 
 
 
