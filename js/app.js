@@ -84,7 +84,9 @@ function triggerSearch(query){
 if(!dataLoaded)return;
 
 query =
-query.toLowerCase().trim();
+String(query)
+.trim()
+.toLowerCase();
 
 if(query.length==0){
 
@@ -93,6 +95,25 @@ return;
 
 }
 
+
+
+let results =
+participants.filter(function(name){
+
+let clean =
+String(name)
+.trim()
+.toLowerCase();
+
+return clean.indexOf(query)===0;
+
+}).slice(0,20);
+
+
+
+showSuggestions(results);
+
+}
 
 
 // ONLY STARTS WITH SEARCH (FIXED)
