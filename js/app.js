@@ -99,7 +99,7 @@ let results =
 participants.filter(name=>
 
 name.toLowerCase()
-.includes(query)
+.startsWith(query)
 
 ).slice(0,20);
 
