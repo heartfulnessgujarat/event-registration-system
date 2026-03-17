@@ -415,6 +415,7 @@ document
 
 
 // SHOW THANK YOU MESSAGE
+
 async function showThankYou(){
 
 let response =
@@ -425,11 +426,10 @@ CONFIG.API_URL+"?action=thankyou"
 let html =
 await response.text();
 
-document.getElementById("result").innerHTML = html;
+document.getElementById("result").innerHTML =
+html;
 
 }
-
-
 
 
 // REGISTER WITHOUT EDIT
