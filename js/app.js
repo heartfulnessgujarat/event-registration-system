@@ -172,29 +172,26 @@ return;
 
 }
 
-
-
-list.forEach(function(name){
+for(let i=0;i<list.length;i++){
 
 let div =
 document.createElement("div");
 
 div.className="suggestionItem";
 
-div.textContent=name;
+div.textContent=list[i];
 
 div.onclick=function(){
 
-selectParticipant(name);
+selectParticipant(list[i]);
 
 };
 
 suggestionBox.appendChild(div);
 
-});
-
 }
 
+}
 
 
 // SELECT PARTICIPANT
