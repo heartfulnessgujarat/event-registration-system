@@ -415,13 +415,12 @@ document
 
 
 // SHOW THANK YOU MESSAGE
-
 async function showThankYou(){
 
 document.body.innerHTML = `
 
 <div style="
-max-width:800px;
+max-width:900px;
 margin:auto;
 padding:20px;
 ">
@@ -430,9 +429,12 @@ padding:20px;
 src="${CONFIG.THANKYOU_URL}"
 style="
 width:100%;
-height:650px;
+height:800px;
 border:none;
-">
+background:white;
+"
+sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+>
 </iframe>
 
 </div>
@@ -440,6 +442,8 @@ border:none;
 `;
 
 }
+
+
 
 
 // REGISTER WITHOUT EDIT
