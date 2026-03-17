@@ -375,9 +375,10 @@ return;
 
 }
 
-let results =
+let centreResults =
 centres.filter(c=>
 
+  
 c.centre
 .toLowerCase()
 .startsWith(query)
