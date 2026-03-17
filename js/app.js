@@ -427,9 +427,13 @@ let html =
 await response.text();
 
 document.querySelector(".container").innerHTML =
-html;
+
+"<div style='text-align:center;padding:20px'>"
++html+
+"</div>";
 
 }
+
 
 // REGISTER WITHOUT EDIT
 function registerParticipant(){
