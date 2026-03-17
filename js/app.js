@@ -417,29 +417,15 @@ document
 // SHOW THANK YOU MESSAGE
 async function showThankYou(){
 
-document.body.innerHTML = `
+let response =
+await fetch(
+CONFIG.API_URL+"?action=thankyou"
+);
 
-<div style="
-max-width:900px;
-margin:auto;
-padding:20px;
-">
+let html =
+await response.text();
 
-<iframe 
-src="${CONFIG.THANKYOU_URL}"
-style="
-width:100%;
-height:800px;
-border:none;
-background:white;
-"
-sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
->
-</iframe>
-
-</div>
-
-`;
+document.getElementById("result").innerHTML = html;
 
 }
 
