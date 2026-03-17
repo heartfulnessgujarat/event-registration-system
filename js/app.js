@@ -29,10 +29,7 @@ let data =
 await response.json();
 
 participants =
-data.map(p => 
-String(p.name)
-.trim()
-);
+data.map(p => String(p.name).trim());
 
 participantRows =
 data.map(p => p.row);
@@ -42,10 +39,7 @@ dataLoaded=true;
 searchBox.disabled=false;
 searchBox.placeholder="Type participant name";
 
-console.log(
-"Participants loaded:",
-participants.length
-);
+console.log("Participants loaded:",participants.length);
 
 }
 
@@ -67,45 +61,24 @@ loadCentres();
 
 
 
-// SEARCH PARTICIPANT
+// PARTICIPANT SEARCH
 searchBox.addEventListener(
 "keyup",
 function(){
 
-triggerSearch(this.value);
+runParticipantSearch(this.value);
 
 }
 );
 
 
 
-
-
-
-
-// STRICT START MATCH FILTER
-let results=[];
-
-for(let i=0;i<participants.length;i++){
-
-let name =
-String(participants[i])
-.trim()
-.toLowerCase();
-
-if(name.substring(0,query.length)===query){
-
-results.push(participants[i]);
-
-}
-
-}
-
-function triggerSearch(query){
+function runParticipantSearch(query){
 
 if(!dataLoaded)return;
 
-query = query.trim().toLowerCase();
+query =
+query.trim().toLowerCase();
 
 if(query.length===0){
 
@@ -114,49 +87,32 @@ return;
 
 }
 
-var matches = [];
 
-for(var i=0;i<participants.length;i++){
 
-var name =
+let participantResults=[];
+
+for(let i=0;i<participants.length;i++){
+
+let cleanName =
 participants[i]
-.toString()
-.trim()
 .toLowerCase();
 
-if(name.indexOf(query)===0){
+if(cleanName.startsWith(query)){
 
-matches.push(participants[i]);
-
-}
+participantResults.push(participants[i]);
 
 }
 
-showSuggestions(matches);
-
 }
 
-
-// ONLY STARTS WITH SEARCH (FIXED)
-let results =
-participants.filter(function(name){
-
-return name
-.toLowerCase()
-.startsWith(query);
-
-}).slice(0,20);
-
-
-
-showSuggestions(results);
+showParticipantSuggestions(participantResults);
 
 }
 
 
 
-// SHOW SUGGESTIONS
-function showSuggestions(list){
+// SHOW PARTICIPANT LIST
+function showParticipantSuggestions(list){
 
 suggestionBox.innerHTML="";
 
@@ -169,9 +125,11 @@ return;
 
 }
 
-for(var i=0;i<list.length;i++){
 
-var div =
+
+for(let i=0;i<list.length;i++){
+
+let div =
 document.createElement("div");
 
 div.className="suggestionItem";
@@ -189,6 +147,8 @@ suggestionBox.appendChild(div);
 }
 
 }
+
+
 
 // SELECT PARTICIPANT
 function selectParticipant(name){
@@ -321,7 +281,7 @@ document
 
 
 
-// ENABLE EDIT MODE
+// ENABLE EDIT
 function enableEdit(){
 
 document.getElementById("mobile").disabled=false;
@@ -360,12 +320,12 @@ I have edited details – Register Me
 
 
 
-// SEARCH CENTRE
+// CENTRE SEARCH
 function searchCentre(query){
 
 query=query.toLowerCase();
 
-if(query.length==0){
+if(query.length===0){
 
 document
 .getElementById("centreSuggestions")
@@ -375,20 +335,30 @@ return;
 
 }
 
-let centreResults =
-centres.filter(c=>
 
-  
-c.centre
-.toLowerCase()
-.startsWith(query)
 
-);
+let centreResults=[];
+
+for(let i=0;i<centres.length;i++){
+
+let centreName =
+centres[i].centre
+.toLowerCase();
+
+if(centreName.startsWith(query)){
+
+centreResults.push(centres[i]);
+
+}
+
+}
+
+
 
 let html="";
 
-
 centreResults.forEach(c=>{
+
 html+=`
 
 <div class="suggestionItem"
@@ -497,7 +467,7 @@ CONFIG.API_URL+
 let result =
 await response.json();
 
-if(result.status=="updated"){
+if(result.status==="updated"){
 
 alert("Profile updated");
 
