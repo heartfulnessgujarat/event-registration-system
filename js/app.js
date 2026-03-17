@@ -19,7 +19,7 @@ searchBox.placeholder="Loading participants...";
 
 
 
-// Load participant list
+// LOAD PARTICIPANTS
 async function loadParticipants(){
 
 let response =
@@ -44,17 +44,11 @@ console.log(
 participants.length
 );
 
-if(searchBox.value.length>0){
-
-triggerSearch(searchBox.value);
-
-}
-
 }
 
 
 
-// Load centres
+// LOAD CENTRES
 async function loadCentres(){
 
 let response =
@@ -70,7 +64,7 @@ loadCentres();
 
 
 
-// Search participant
+// SEARCH PARTICIPANT
 searchBox.addEventListener(
 "keyup",
 function(){
@@ -86,7 +80,8 @@ function triggerSearch(query){
 
 if(!dataLoaded)return;
 
-query=query.toLowerCase();
+query =
+query.toLowerCase().trim();
 
 if(query.length==0){
 
@@ -95,13 +90,19 @@ return;
 
 }
 
+
+
+// ONLY STARTS WITH SEARCH (FIXED)
 let results =
-participants.filter(name=>
+participants.filter(function(name){
 
-name.toLowerCase()
-.startsWith(query)
+return name
+.toLowerCase()
+.startsWith(query);
 
-).slice(0,20);
+}).slice(0,20);
+
+
 
 showSuggestions(results);
 
@@ -109,7 +110,7 @@ showSuggestions(results);
 
 
 
-// Show participant suggestions
+// SHOW SUGGESTIONS
 function showSuggestions(list){
 
 suggestionBox.innerHTML="";
@@ -148,7 +149,7 @@ suggestionBox.appendChild(div);
 
 
 
-// Select participant
+// SELECT PARTICIPANT
 function selectParticipant(name){
 
 searchBox.value=name;
@@ -168,8 +169,6 @@ showProfile(row);
 function showProfile(row){
 
 window.currentRow=row;
-
-window.isEditing=false;
 
 let html=`
 
@@ -281,16 +280,24 @@ document
 
 
 
-// Enable editing
+// ENABLE EDIT MODE
 function enableEdit(){
 
 document.getElementById("mobile").disabled=false;
+
 document.getElementById("email").disabled=false;
+
 document.getElementById("centre").disabled=false;
+
 document.getElementById("pin").disabled=false;
 
+
+
 document.getElementById("registerBtn").disabled=true;
+
 document.getElementById("editBtn").disabled=true;
+
+
 
 document
 .getElementById("editSection")
@@ -312,10 +319,12 @@ I have edited details – Register Me
 
 
 
-// Search centre
+// SEARCH CENTRE
 function searchCentre(query){
 
-if(query.length<1){
+query=query.toLowerCase();
+
+if(query.length==0){
 
 document
 .getElementById("centreSuggestions")
@@ -330,7 +339,7 @@ centres.filter(c=>
 
 c.centre
 .toLowerCase()
-.includes(query.toLowerCase())
+.startsWith(query)
 
 );
 
@@ -359,7 +368,7 @@ document
 
 
 
-// Select centre
+// SELECT CENTRE
 function selectCentre(name){
 
 document
@@ -383,6 +392,8 @@ document
 .value=
 centreData.zone;
 
+
+
 document
 .getElementById("editedRegisterBtn")
 .disabled=false;
@@ -391,7 +402,7 @@ document
 
 
 
-// Register normal
+// REGISTER NORMAL
 function registerParticipant(){
 
 alert("Proceed to event selection");
@@ -400,8 +411,11 @@ alert("Proceed to event selection");
 
 
 
-// Register edited
-function registerEditedParticipant(){
+// REGISTER AFTER EDIT
+async function registerEditedParticipant(){
+
+let name =
+window.currentRow[1];
 
 let mobile =
 document.getElementById("mobile").value;
@@ -412,17 +426,46 @@ document.getElementById("email").value;
 let centre =
 document.getElementById("centre").value;
 
+let district =
+document.getElementById("district").value;
+
+let zone =
+document.getElementById("zone").value;
+
 let pin =
 document.getElementById("pin").value;
 
-console.log(
-"Updated:",
-mobile,
-email,
-centre,
-pin
+
+
+let response =
+await fetch(
+
+CONFIG.API_URL+
+"?action=updateProfile"+
+"&name="+encodeURIComponent(name)+
+"&mobile="+mobile+
+"&email="+encodeURIComponent(email)+
+"&centre="+encodeURIComponent(centre)+
+"&district="+encodeURIComponent(district)+
+"&zone="+encodeURIComponent(zone)+
+"&pin="+pin
+
 );
 
-alert("Save + Register flow next");
+let result =
+await response.json();
+
+if(result.status=="updated"){
+
+alert("Profile updated");
+
+registerParticipant();
+
+}
+else{
+
+alert("Update failed");
+
+}
 
 }
