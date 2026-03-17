@@ -416,35 +416,30 @@ document
 
 // SHOW THANK YOU MESSAGE
 
-
-
 async function showThankYou(){
 
-let response =
-await fetch(
-CONFIG.API_URL+"?action=thankyou"
-);
+document.body.innerHTML = `
 
-let html =
-await response.text();
-
-
-
-document.body.innerHTML =
-`
 <div style="
-max-width:700px;
-margin:40px auto;
-font-family:Arial;
+max-width:800px;
+margin:auto;
+padding:20px;
 ">
 
-${html}
+<iframe 
+src="${CONFIG.THANKYOU_URL}"
+style="
+width:100%;
+height:650px;
+border:none;
+">
+</iframe>
 
 </div>
+
 `;
 
 }
-
 
 
 // REGISTER WITHOUT EDIT
