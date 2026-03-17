@@ -18,45 +18,35 @@ searchBox.placeholder="Loading participants...";
 
 
 
+// Load participants
 async function loadParticipants(){
 
-try{
-
 let response =
-await fetch(CONFIG.API_URL+"?action=list");
+await fetch("./data/participants.json");
 
 let data =
 await response.json();
 
-participants = data.names || [];
-participantRows = data.rows || [];
+participants =
+data.map(p => p.name);
+
+participantRows =
+data.map(p => p.row);
 
 dataLoaded=true;
+
+searchBox.disabled=false;
+searchBox.placeholder="Type participant name";
 
 console.log(
 "Participants loaded:",
 participants.length
 );
 
-// Enable search
-searchBox.disabled=false;
-searchBox.placeholder="Type participant name";
-
-
-// IMPORTANT FIX:
-// If user already typed something, refresh search
+// Refresh if user already typed
 if(searchBox.value.length>0){
 
 triggerSearch(searchBox.value);
-
-}
-
-}
-catch(error){
-
-console.log("Load error:",error);
-
-searchBox.placeholder="Failed to load data";
 
 }
 
@@ -66,7 +56,7 @@ loadParticipants();
 
 
 
-// Search handler
+// Search logic
 searchBox.addEventListener(
 "keyup",
 function(){
@@ -80,11 +70,7 @@ triggerSearch(this.value);
 
 function triggerSearch(query){
 
-if(!dataLoaded){
-
-return;
-
-}
+if(!dataLoaded)return;
 
 query=query.toLowerCase();
 
@@ -96,13 +82,12 @@ return;
 }
 
 let results =
-participants.filter(function(name){
+participants.filter(name=>
 
-return name
-.toLowerCase()
-.includes(query);
+name.toLowerCase()
+.includes(query)
 
-}).slice(0,20);
+).slice(0,20);
 
 showSuggestions(results);
 
@@ -110,7 +95,7 @@ showSuggestions(results);
 
 
 
-// Show dropdown
+// Show suggestions
 function showSuggestions(list){
 
 suggestionBox.innerHTML="";
@@ -157,30 +142,20 @@ searchBox.value=name;
 suggestionBox.innerHTML="";
 
 let row =
-participantRows.find(function(r){
-
-return String(r[1]).trim()==name;
-
-});
-
-if(row){
+participantRows.find(r => r[1]==name);
 
 showProfile(row);
 
 }
 
-}
 
 
-
-// Show profile
-
+// PROFILE VIEW
 function showProfile(row){
 
 window.currentRow=row;
 
 window.isEditing=false;
-window.dataUpdating=false;
 
 let html=`
 
@@ -284,7 +259,83 @@ document
 .innerHTML=html;
 
 }
-function saveProfile(){
+
+
+
+// ENABLE EDIT MODE
+function enableEdit(){
+
+window.isEditing=true;
+
+document.getElementById("mobile").disabled=false;
+document.getElementById("email").disabled=false;
+document.getElementById("centre").disabled=false;
+document.getElementById("pin").disabled=false;
+
+
+
+document.getElementById("registerBtn").disabled=true;
+
+document.getElementById("editBtn").disabled=true;
+
+
+
+document
+.getElementById("editSection")
+.innerHTML=`
+
+<br>
+
+<button id="editedRegisterBtn"
+disabled
+onclick="registerEditedParticipant()">
+
+I have edited details – Register Me
+
+</button>
+
+`;
+
+}
+
+
+
+// Centre change simulation
+function centreChanged(){
+
+document
+.getElementById("editedRegisterBtn")
+.disabled=true;
+
+
+
+setTimeout(function(){
+
+document.getElementById("district").value="Updated District";
+
+document.getElementById("zone").value="Updated Zone";
+
+document
+.getElementById("editedRegisterBtn")
+.disabled=false;
+
+},800);
+
+}
+
+
+
+// REGISTER NORMAL
+function registerParticipant(){
+
+alert("Proceed to event selection");
+
+}
+
+
+
+// REGISTER AFTER EDIT
+function registerEditedParticipant(){
 
 let mobile =
 document.getElementById("mobile").value;
@@ -299,13 +350,13 @@ let pin =
 document.getElementById("pin").value;
 
 console.log(
-"Saving:",
+"Updated:",
 mobile,
 email,
 centre,
 pin
 );
 
-alert("Save button working (API next)");
+alert("Save + Register flow next");
 
 }
