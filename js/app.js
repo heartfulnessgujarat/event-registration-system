@@ -174,32 +174,114 @@ showProfile(row);
 
 
 // Show profile
+
 function showProfile(row){
 
 let html=`
 
 <h3>Participant Profile</h3>
 
-<p><b>Name:</b> ${row[1]}</p>
+<table class="profileTable">
 
-<p><b>Mobile:</b> ${row[2]}</p>
+<tr>
+<td>Name</td>
+<td>
+<input value="${row[1]}" disabled>
+</td>
+</tr>
 
-<p><b>Email:</b> ${row[3]}</p>
+<tr>
+<td>Mobile</td>
+<td>
+<input id="mobile"
+value="${row[2]}">
+</td>
+</tr>
 
-<p><b>Centre:</b> ${row[4]}</p>
+<tr>
+<td>Email</td>
+<td>
+<input id="email"
+value="${row[3]}">
+</td>
+</tr>
 
-<p><b>District:</b> ${row[5]}</p>
+<tr>
+<td>Centre</td>
+<td>
+<input id="centre"
+value="${row[4]}">
+</td>
+</tr>
 
-<p><b>Zone:</b> ${row[6]}</p>
+<tr>
+<td>District</td>
+<td>
+<input value="${row[5]}" disabled>
+</td>
+</tr>
 
-<p><b>SRCMID:</b> ${row[7]}</p>
+<tr>
+<td>Zone</td>
+<td>
+<input value="${row[6]}" disabled>
+</td>
+</tr>
 
-<p><b>Pin:</b> ${row[8]}</p>
+<tr>
+<td>SRCMID</td>
+<td>
+<input value="${row[7]}" disabled>
+</td>
+</tr>
+
+<tr>
+<td>Pin</td>
+<td>
+<input id="pin"
+value="${row[8]}">
+</td>
+</tr>
+
+</table>
+
+<br>
+
+<button onclick="saveProfile()">
+Save Changes
+</button>
 
 `;
 
 document
 .getElementById("result")
 .innerHTML=html;
+
+}
+
+
+function saveProfile(){
+
+let mobile =
+document.getElementById("mobile").value;
+
+let email =
+document.getElementById("email").value;
+
+let centre =
+document.getElementById("centre").value;
+
+let pin =
+document.getElementById("pin").value;
+
+console.log(
+"Saving:",
+mobile,
+email,
+centre,
+pin
+);
+
+alert("Save button working (API next)");
 
 }
