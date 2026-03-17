@@ -79,21 +79,7 @@ triggerSearch(this.value);
 
 
 
-function triggerSearch(query){
 
-if(!dataLoaded)return;
-
-query =
-String(query)
-.trim()
-.toLowerCase();
-
-if(query.length==0){
-
-suggestionBox.innerHTML="";
-return;
-
-}
 
 
 
@@ -115,30 +101,43 @@ results.push(participants[i]);
 
 }
 
+function triggerSearch(query){
 
+if(!dataLoaded)return;
 
-showSuggestions(results.slice(0,20));
+query =
+query.trim().toLowerCase();
+
+if(query.length==0){
+
+suggestionBox.innerHTML="";
+return;
 
 }
 
+let results=[];
 
-let results =
-participants.filter(function(name){
+for(let i=0;i<participants.length;i++){
 
-let clean =
-String(name)
+let name =
+participants[i]
+.toString()
 .trim()
 .toLowerCase();
 
-return clean.indexOf(query)===0;
+if(name.startsWith(query)){
 
-}).slice(0,20);
+results.push(participants[i]);
 
+}
 
+}
 
 showSuggestions(results);
 
 }
+
+
 
 
 // ONLY STARTS WITH SEARCH (FIXED)
