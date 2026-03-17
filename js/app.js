@@ -423,16 +423,15 @@ await fetch(
 CONFIG.API_URL+"?action=thankyou"
 );
 
-let data =
-await response.json();
+let html =
+await response.text();
 
 document
 .getElementById("result")
-.innerHTML=
-data.html;
+.innerHTML =
+html;
 
 }
-
 
 
 
