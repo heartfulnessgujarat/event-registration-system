@@ -102,7 +102,7 @@ results.push(participants[i]);
 }
 
 function triggerSearch(query){
-
+  console.log("Search:",query);
 if(!dataLoaded)return;
 
 query =
