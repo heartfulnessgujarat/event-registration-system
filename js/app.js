@@ -426,11 +426,10 @@ CONFIG.API_URL+"?action=thankyou"
 let html =
 await response.text();
 
-document.getElementById("result").innerHTML =
+document.querySelector(".container").innerHTML =
 html;
 
 }
-
 
 // REGISTER WITHOUT EDIT
 function registerParticipant(){
