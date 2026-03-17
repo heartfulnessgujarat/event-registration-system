@@ -1,3 +1,5 @@
+let THANKYOU_HTML="";
+
 console.log("App loaded");
 
 let participants=[];
