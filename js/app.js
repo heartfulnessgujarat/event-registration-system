@@ -387,8 +387,8 @@ c.centre
 
 let html="";
 
-results.forEach(c=>{
 
+centreResults.forEach(c=>{
 html+=`
 
 <div class="suggestionItem"
