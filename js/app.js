@@ -69,6 +69,8 @@ await response.json();
 }
 
 loadParticipants();
+
+loadParticipants();
 loadCentres();
 
 
