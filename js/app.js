@@ -419,20 +419,16 @@ document
 async function showThankYou(){
 
 let response =
-await fetch(
-CONFIG.API_URL+"?action=thankyou"
-);
+await fetch("./data/thankyou.html?v="+Date.now());
 
 let html =
 await response.text();
 
 document.querySelector(".container").innerHTML =
-
-"<div style='text-align:center;padding:20px'>"
-+html+
-"</div>";
+html;
 
 }
+
 
 
 // REGISTER WITHOUT EDIT
