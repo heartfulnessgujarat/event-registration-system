@@ -430,18 +430,14 @@ document
 
 // SHOW THANK YOU MESSAGE
 
-async function showThankYou(){
-
-let response =
-await fetch("./data/thankyou.html?v="+Date.now());
-
-let html =
-await response.text();
+function showThankYou(){
 
 document.querySelector(".container").innerHTML =
-html;
+THANKYOU_HTML;
 
 }
+
+
 
 
 
