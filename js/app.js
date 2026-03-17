@@ -97,6 +97,31 @@ return;
 
 
 
+// STRICT START MATCH FILTER
+let results=[];
+
+for(let i=0;i<participants.length;i++){
+
+let name =
+String(participants[i])
+.trim()
+.toLowerCase();
+
+if(name.substring(0,query.length)===query){
+
+results.push(participants[i]);
+
+}
+
+}
+
+
+
+showSuggestions(results.slice(0,20));
+
+}
+
+
 let results =
 participants.filter(function(name){
 
