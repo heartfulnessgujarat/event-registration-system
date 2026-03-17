@@ -1,5 +1,15 @@
 let THANKYOU_HTML="";
+async function preloadThankYou(){
 
+let response =
+await fetch("./data/thankyou.html?v="+Date.now());
+
+THANKYOU_HTML =
+await response.text();
+
+console.log("Thank you preloaded");
+
+}
 console.log("App loaded");
 
 let participants=[];
