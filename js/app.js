@@ -177,6 +177,11 @@ showProfile(row);
 
 function showProfile(row){
 
+window.currentRow=row;
+
+window.isEditing=false;
+window.dataUpdating=false;
+
 let html=`
 
 <h3>Participant Profile</h3>
@@ -194,7 +199,8 @@ let html=`
 <td>Mobile</td>
 <td>
 <input id="mobile"
-value="${row[2]}">
+value="${row[2]}"
+disabled>
 </td>
 </tr>
 
@@ -202,7 +208,8 @@ value="${row[2]}">
 <td>Email</td>
 <td>
 <input id="email"
-value="${row[3]}">
+value="${row[3]}"
+disabled>
 </td>
 </tr>
 
@@ -210,21 +217,27 @@ value="${row[3]}">
 <td>Centre</td>
 <td>
 <input id="centre"
-value="${row[4]}">
+value="${row[4]}"
+disabled
+onchange="centreChanged()">
 </td>
 </tr>
 
 <tr>
 <td>District</td>
 <td>
-<input value="${row[5]}" disabled>
+<input id="district"
+value="${row[5]}"
+disabled>
 </td>
 </tr>
 
 <tr>
 <td>Zone</td>
 <td>
-<input value="${row[6]}" disabled>
+<input id="zone"
+value="${row[6]}"
+disabled>
 </td>
 </tr>
 
@@ -239,7 +252,8 @@ value="${row[4]}">
 <td>Pin</td>
 <td>
 <input id="pin"
-value="${row[8]}">
+value="${row[8]}"
+disabled>
 </td>
 </tr>
 
@@ -247,9 +261,21 @@ value="${row[8]}">
 
 <br>
 
-<button onclick="saveProfile()">
-Save Changes
+<button id="registerBtn"
+onclick="registerParticipant()">
+
+Yes, Details are OK – Register Me
+
 </button>
+
+<button id="editBtn"
+onclick="enableEdit()">
+
+I want to edit details
+
+</button>
+
+<div id="editSection"></div>
 
 `;
 
@@ -258,8 +284,6 @@ document
 .innerHTML=html;
 
 }
-
-
 function saveProfile(){
 
 let mobile =
