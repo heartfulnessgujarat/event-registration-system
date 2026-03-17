@@ -102,42 +102,39 @@ results.push(participants[i]);
 }
 
 function triggerSearch(query){
-  console.log("Search:",query);
+
 if(!dataLoaded)return;
 
-query =
-query.trim().toLowerCase();
+query = query.trim().toLowerCase();
 
-if(query.length==0){
+if(query.length===0){
 
 suggestionBox.innerHTML="";
 return;
 
 }
 
-let results=[];
+var matches = [];
 
-for(let i=0;i<participants.length;i++){
+for(var i=0;i<participants.length;i++){
 
-let name =
+var name =
 participants[i]
 .toString()
 .trim()
 .toLowerCase();
 
-if(name.startsWith(query)){
+if(name.indexOf(query)===0){
 
-results.push(participants[i]);
-
-}
+matches.push(participants[i]);
 
 }
 
-showSuggestions(results);
-
 }
 
+showSuggestions(matches);
 
+}
 
 
 // ONLY STARTS WITH SEARCH (FIXED)
@@ -163,7 +160,7 @@ function showSuggestions(list){
 
 suggestionBox.innerHTML="";
 
-if(list.length==0){
+if(list.length===0){
 
 suggestionBox.innerHTML=
 "<div class='suggestionItem'>No match</div>";
@@ -172,9 +169,9 @@ return;
 
 }
 
-for(let i=0;i<list.length;i++){
+for(var i=0;i<list.length;i++){
 
-let div =
+var div =
 document.createElement("div");
 
 div.className="suggestionItem";
@@ -183,7 +180,7 @@ div.textContent=list[i];
 
 div.onclick=function(){
 
-selectParticipant(list[i]);
+selectParticipant(this.textContent);
 
 };
 
@@ -192,7 +189,6 @@ suggestionBox.appendChild(div);
 }
 
 }
-
 
 // SELECT PARTICIPANT
 function selectParticipant(name){
