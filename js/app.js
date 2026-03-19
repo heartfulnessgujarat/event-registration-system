@@ -1,5 +1,5 @@
 
-const API_URL="PASTE_WEBAPP_URL";
+const API_URL="https://script.google.com/macros/s/AKfycbwMXVVLzngiMoQr3XDlOKldn-_n0qflFgVxInhvkVQD5K5EKOeStm9v0q3hrSlJDjwT/exec";
 
 const params =
 new URLSearchParams(window.location.search);
